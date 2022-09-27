@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Editar Mascota - Mascotas felices</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+  <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+
+
+  <h1> Actualice aqui los datos de la mascota</h1>
+  <br>
+  <form th:action="@{/ActualizarMascota}" th:object="${mascota}" method="post">
+    <!--Campo para id-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="id">ID de la Mascota:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{id}" class="form-control" id="id" required="required" readonly></div>
+      </div>
+    </div>
+
+    <!--Campo para nombre-->
+    <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-3" for="nombre">Nombre de la Mascota:</label>
+          <div class="col-md-6">
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" required="required"></div>
+        </div>
+      </div>
+
+    <!--Campo para color-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="nombre">Color de la mascota:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{color}" class="form-control" id="color" required="required"></div>
+      </div>
+    </div>
+
+    <!--Campo para especie-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="especie">Especie de la mascota:</label>
+        <div class="col-md-6">
+          <select th:field="*{especie}" class="form-control" id="especie" required="required">
+            <option th:value="Perro">Perro</option>
+            <option th:value="Gato">Gato</option>
+            <option th:value="Hamster">Hamster</option>
+            <option th:value="Ave">Ave</option>
+            <option th:value="Pez">Pez</option>
+            <option th:value="Ratón">Ratón</option>
+            <option th:value="Cobaya">Cobaya</option>
+            <option th:value="Serpiente">Serpiente</option>
+            <option th:value="Iguana">Iguana</option>
+            <option th:value="Hurón">Hurón</option>
+            <option th:value="Otro">Otro...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!--Campo para raza-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="raza">Raza de la mascota (si aplica):</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{raza}" class="form-control" id="raza"></div>
+      </div>
+    </div>
+
+
+    <!--Campo para genero-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="genero">Genero de la mascota:</label>
+        <div class="col-md-6">
+          <select th:field="*{genero}" class="form-control" id="genero" required="required">
+            <option th:value="Femenino">Femenino</option>
+            <option th:value="Masculino">Masculino</option>
+            <option th:value="SinRegistrar">Sin especificar</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!--Campo para veterinario-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="veterinario">Profesional Responsable:</label>
+        <div class="col-md-6">
+          <select th:field="*{veterinario}" class="form-control" id="veterinario" required="required">
+            <option th:each="veterinario : ${listaVet}" th:text="${veterinario.nombre}+' '+${veterinario.apellido}" th:value="${veterinario.id}"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+     <!--Campo para Dueño-->
+     <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="dueno">Dueño de la mascota:</label>
+        <div class="col-md-6">
+          <select th:field="*{dueno}" class="form-control" id="dueno" required="required">
+            <option th:each="dueno : ${listaDuenos}" th:text="${dueno.nombre}+' '+${dueno.apellido}" th:value="${dueno.id}"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <!--Boton para enviar todo y ejecutar accion -->
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-success">Actualizar Mascota</button>
+      </div>
+    </div>
+
+  </form>
+
+  <br>
+  <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+
+</div>
+</body>
+</html>

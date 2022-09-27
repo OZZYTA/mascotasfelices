@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historial de Atenciones - Mascotas Felices</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" style="border:5px ; border-color: cornflowerblue; border-style: dotted;">
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+    <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <h1> Historial de Atenciones - Mascotas Felices</h1>
+    <!--Dibujamos la tabla-->
+    <br><table class="table table-bordered">
+        <tr>
+            <th>Fecha</th>
+            <th>Mascota</th>
+            <th>Temperatura (°C)</th>
+            <th>Peso (Kg)</th>
+            <th>FR (Rpm)</th>
+            <th>FC (Rpm)</th>
+            <th>Animo</th>
+            <th>Recomendaciones</th>
+            <th>Profesional</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+
+        <!--Llenamos la tabla dibujada-->
+        <tr th:each="atencion : ${listaAtenciones}">
+            <td th:text="${#dates.format(atencion.fecha, 'dd/MM/yyyy')}"></td>
+            <td th:text="${atencion.mascota.nombre}"></td>
+            <td th:text="${atencion.temperatura}"></td>
+            <td th:text="${atencion.peso}"></td>
+            <td th:text="${atencion.frecuenciaR}"></td>
+            <td th:text="${atencion.frecuenciaC}"></td>
+            <td th:text="${atencion.animo}"></td>
+            <td th:text="${atencion.recomendaciones}"></td>
+            <td th:text="${atencion.veterinario.nombre}+' '+${atencion.veterinario.apellido}"></td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarAtencion/{id}(id=${atencion.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarAtencion/{id}(id=${atencion.id})}">Eliminar</a></button></td>
+        </tr>
+    </table>
+    
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarAtencion}">Agregar Nueva Atención</a></button>
+    <br><br>
+    <a href="javascript: history.go(-1)" class="btn btn-primary" role="button">Atrás</a><br>
+</div>
+
+<script th:inline="javascript">
+    window.onload=function(){
+
+        var msg= [[${mensaje}]];
+        if (msg == "saveOK"){
+            Command : toastr["success"]("Atencion registrada con éxito!")
+            }
+        else if (msg == "updateOK"){
+            Command : toastr["success"]("Atencion actualizada con éxito!")
+        }
+        else if (msg == "deleteOK"){
+            Command : toastr["error"]("Atencion eliminada con éxito!")
+        }
+        else if (msg == "deleteError"){
+            Command : toastr["error"]("Atencion no ha sido eliminada!")
+        }
+        toastr.options={
+            "positionClass": "toast-top-right",
+            "showDuration":"300",
+            "showMethod":"fadeIn",
+            "hideMethod":"fadeOut",
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>

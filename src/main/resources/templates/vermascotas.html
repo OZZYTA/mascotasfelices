@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Mascotas (Pacientes) - Mascotas Felices</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" style="border:5px ; border-color: cornflowerblue; border-style: dotted;">
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+    <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <h1> Lista de Mascotas (pacientes) - Mascotas Felices</h1>
+    <!--Dibujamos la tabla-->
+    <br><table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Color</th>
+            <th>Especie</th>
+            <th>Raza</th>
+            <th>Genero</th>
+            <th>Prof. Responsable</th>
+            <th>Dueño</th>
+            <th>HC</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+
+        <!--Llenamos la tabla dibujada-->
+        <tr th:each="mascota : ${listaMascotas}">
+            <td th:text="${mascota.id}"></td>
+            <td th:text="${mascota.nombre}"></td>
+            <td th:text="${mascota.color}"></td>
+            <td th:text="${mascota.especie}"></td>
+            <td th:text="${mascota.raza}"></td>
+            <td th:text="${mascota.genero}"></td>
+            <td th:text="${mascota.veterinario.nombre}+' '+${mascota.veterinario.apellido}"></td>
+            <td th:text="${mascota.dueno.nombre}+' '+${mascota.dueno.apellido}"></td>
+            
+            <td><button type="button" class="btn btn-info"><a th:href="@{/Mascotas/{id}/Atenciones(id=${mascota.id})}">Ver</a></button></td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarMascota/{id}(id=${mascota.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarMascota/{id}(id=${mascota.id})}">Eliminar</a></button></td>
+        </tr>
+    </table>
+    
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarMascota}">Agregar Nueva Mascota</a></button>
+    <br><br>
+    <a href="javascript: history.go(-1)" class="btn btn-primary" role="button">Atrás</a><br>
+</div>
+
+<script th:inline="javascript">
+    window.onload=function(){
+
+        var msg= [[${mensaje}]];
+        if (msg == "saveOK"){
+            Command : toastr["success"]("Veterinario registrado con éxito!")
+            }
+        else if (msg == "updateOK"){
+            Command : toastr["success"]("Veterinario actualizado con éxito!")
+        }
+        else if (msg == "deleteOK"){
+            Command : toastr["error"]("Veterinario eliminado con éxito!")
+        }
+        else if (msg == "deleteError"){
+            Command : toastr["error"]("Veterinario no ha sido eliminado!")
+        }
+        toastr.options={
+            "positionClass": "toast-top-right",
+            "showDuration":"300",
+            "showMethod":"fadeIn",
+            "hideMethod":"fadeOut",
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>

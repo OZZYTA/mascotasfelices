@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Dueños Registrados - Mascotas Felices</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" style="border:5px ; border-color: cornflowerblue; border-style: dotted;">
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+    <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <h1> Lista de Duenos - Mascotas Felices</h1>
+    <!--Dibujamos la tabla-->
+    <br><table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
+            <th>E-mail</th>
+            <th>Mascotas</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+
+        <!--Llenamos la tabla dibujada-->
+        <tr th:each="dueno : ${listaduenos}">
+            <td th:text="${dueno.id}"></td>
+            <td th:text="${dueno.nombre}"></td>
+            <td th:text="${dueno.apellido}"></td>
+            <td th:text="${dueno.direccion}"></td>
+            <td th:text="${dueno.telefono}"></td>
+            <td th:text="${dueno.correo}"></td>
+            <td><button type="button" class="btn btn-info"><a th:href="@{/Dueno/{id}/Mascotas(id=${dueno.id})}">Ver</a></button></td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarDueno/{id}(id=${dueno.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarDueno/{id}(id=${dueno.id})}">Eliminar</a></button></td>
+        </tr>
+    </table>
+    
+    <!-- vamos a crear un boton que sirva para agregar nuevas empresas -->
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarDueno}">Agregar Nuevo Dueño</a></button>
+    <br><br>
+    <a href="javascript: history.go(-1)" class="btn btn-primary" role="button">Atrás</a><br>
+</div>
+
+<script th:inline="javascript">
+    window.onload=function(){
+
+        var msg= [[${mensaje}]];
+        if (msg == "saveOK"){
+            Command : toastr["success"]("Dueño registrado con éxito!")
+            }
+        else if (msg == "updateOK"){
+            Command : toastr["success"]("Dueño actualizado con éxito!")
+        }
+        else if (msg == "deleteOK"){
+            Command : toastr["error"]("Dueño eliminado con éxito!")
+        }
+        else if (msg == "deleteError"){
+            Command : toastr["error"]("Dueño no ha sido eliminado!")
+        }
+        toastr.options={
+            "positionClass": "toast-top-right",
+            "showDuration":"300",
+            "showMethod":"fadeIn",
+            "hideMethod":"fadeOut",
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>

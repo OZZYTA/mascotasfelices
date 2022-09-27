@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Agregar nuevo atención - Mascotas felices</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+  <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+
+
+  <h1> Agregue aqui los datos de la Atención</h1>
+  <br>
+  <form th:action="@{/GuardarAtencion}" th:object="${atencion}" method="post">
+
+    <!--Campo para fecha-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="fecha">Fecha de la atención:</label>
+        <div class="col-md-6">
+          <input type="date" th:field="*{fecha}" class="form-control" id="fecha" required="required" readonly></div>
+      </div>
+    </div>
+
+    <!--Campo para Mascota-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="mascota">Nombre de la mascota:</label>
+        <div class="col-md-6">
+          <select th:field="*{mascota}" class="form-control" id="mascota" required="required">
+            <option th:each="mascota : ${listaMascotas}" th:text="${mascota.nombre}+' - '+${mascota.dueno.nombre}+' '+${mascota.dueno.apellido}" th:value="${mascota.id}"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!--Campo para temperatura-->
+    <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-3" for="temperatura">Temperatura de la Mascota (°C):</label>
+          <div class="col-md-6">
+            <input type="number" th:field="*{temperatura}" class="form-control" id="temperatura" required="required"></div>
+        </div>
+      </div>
+
+    <!--Campo para peso-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="peso">Peso de la Mascota (kg):</label>
+        <div class="col-md-6">
+          <input type="number" th:field="*{peso}" class="form-control" id="peso" required="required"></div>
+      </div>
+    </div>
+
+    <!--Campo para Frecuencia Respiratoria-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="frecuenciaR">Frecuencia Respiratoria (Rpm):</label>
+        <div class="col-md-6">
+          <input type="number" th:field="*{frecuenciaR}" class="form-control" id="frecuenciaR" required="required"></div>
+      </div>
+    </div>
+
+    <!--Campo para Frecuecia Cardiaca-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="frecuenciaC">Frecuencia Cardiaca (Rpm):</label>
+        <div class="col-md-6">
+          <input type="number" th:field="*{frecuenciaC}" class="form-control" id="frecuenciaC" required="required"></div>
+      </div>
+    </div>
+
+    <!--Campo para estado de animo-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="animo">Estado de animo de la mascota:</label>
+        <div class="col-md-6">
+          <select th:field="*{animo}" class="form-control" id="animo" required="required">
+            <option th:value="Alerta">Alerta</option>
+            <option th:value="Amenazante">Amenazante</option>
+            <option th:value="Temeroso">Temeroso</option>
+            <option th:value="Amenazado">Amenazado</option>
+            <option th:value="Pacifico">Pacifico</option>
+            <option th:value="Enojado">Enojado</option>
+            <option th:value="Estresado">Estresado</option>
+            <option th:value="Ansioso">Ansioso</option>
+            <option th:value="Incomodo">Incomodo</option>
+            <option th:value="Relajado">Relajado</option>
+            <option th:value="Curioso">Curioso</option>
+            <option th:value="Jugueton">Jugueton</option>
+            <option th:value="Triste">Triste</option>
+            <option th:value="Asustado">Asustado</option>
+            <option th:value="Otro">Otro...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!--Campo para Recomendaciones-->
+    <!--Campo para Recomendaciones-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="recomendaciones">Recomendaciones dadas:</label>
+        <textarea class="col-md-6" id="recomendaciones" rows="5"
+                  name="recomendaciones"
+                  placeholder="Recomendaciones aqui" th:field="*{recomendaciones}"
+                  required="required"></textarea>
+      </div>
+    </div>
+
+    <!--Campo para veterinario (usuario responsable)-->
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="veterinario">Veterinario responsable:</label>
+        <div class="col-md-6">
+          <select th:field="*{veterinario}" class="form-control" id="veterinario" required="required" readonly>
+            <option th:text="${nombreVet}" th:value="${#httpServletRequest.remoteUser}"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <!--Boton para enviar todo y ejecutar accion -->
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-success">Registrar Atención</button>
+      </div>
+    </div>
+
+  </form>
+
+  <br>
+  <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+
+</div>
+
+<script th:inline="javascript">
+  window.onload=function(){
+  document.getElementById("fecha").value=new Date().toJSON().slice(0,10).replace(/-/g,'-');
+  }
+</script>
+</body>
+</html>

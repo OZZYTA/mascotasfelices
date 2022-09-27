@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Mascotas felices</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+<p th:inline="text" class="text-right" style="margin-right: 100px;" >User: [[${#httpServletRequest.remoteUser}]]</p>
+  <button type="button" class="btn btn-danger" style="float:right; margin-right: 100px;"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <div class="container" style="width: 600px; border: 10px; border-style: dotted; border-color: cornflowerblue;" >
+        <center><img src="logo.png" class="img-rounded" alt="Mascotas Felices"></center>
+        <h3> Selecciona una opción:</h3>
+        <!--Dibujamos la tabla-->
+        <br>
+        <button type="button" class="btn btn-primary" style="width: 550px;"><a th:href="@{/VerDuenos}">Gestionar Dueños</a></button><br><br>
+        <button type="button" class="btn btn-info" style="width: 550px;"><a th:href="@{/VerVeterinarios}">Gestionar Veterinarios</a></button><br><br>
+        <button type="button" class="btn btn-success" style="width: 550px;"><a th:href="@{/VerMascotas}">Área de Mascotas</a></button><br><br>
+        <button type="button" class="btn btn-warning" style="width: 550px;"><a th:href="@{/AgregarAtencion}">Registrar Atención Médica</a></button><br><br>
+    
+    <br><br>
+    
+    <p class="text-right">The developers - Mision TIC 2022</p>
+
+    </div>
+    
+</body>
+</html>
