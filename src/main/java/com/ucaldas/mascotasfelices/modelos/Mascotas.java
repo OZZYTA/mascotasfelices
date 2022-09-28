@@ -14,6 +14,7 @@ public class Mascotas {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+    
     private String nombre;
     private String color;
     private String especie;

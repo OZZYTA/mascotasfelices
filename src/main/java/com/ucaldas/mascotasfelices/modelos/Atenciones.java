@@ -22,8 +22,10 @@ public class Atenciones {
     @ManyToOne
     @JoinColumn(name = "Mascotas_id")
     private Mascotas mascota;
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private java.util.Date fecha;
+    
     private String temperatura;
     private String peso;
     private String frecuenciaR;
