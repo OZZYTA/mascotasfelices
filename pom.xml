@@ -11,6 +11,7 @@
 	<groupId>com.ucaldas</groupId>
 	<artifactId>mascotasfelices</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>mascotasfelices</name>
 	<description>Proyecto para el ciclo 3 Mision TIC 2022</description>
 	<properties>
