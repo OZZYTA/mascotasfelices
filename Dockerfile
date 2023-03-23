@@ -10,6 +10,6 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-RUN ./mvnw install -DskipTests
+RUN ./mvn install -DskipTests
 
 ENTRYPOINT ["java","-jar","target/mascotasfelices-0.0.1-SNAPSHOT.jar"]
