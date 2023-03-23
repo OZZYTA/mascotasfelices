@@ -1,5 +1,11 @@
-FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} mascotasfelices-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar"]
+FROM eclipse-temurin:17-jdk-focal
+ 
+WORKDIR /app
+ 
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+ 
+COPY src ./src
+ 
+CMD ["./mvnw", "spring-boot:run"]
